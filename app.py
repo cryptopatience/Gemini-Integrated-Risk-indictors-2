@@ -430,7 +430,7 @@ FULL_ANALYSIS:
 간결하고 실용적으로 작성하세요.
 """
     
-  try:
+try:
         model = genai.GenerativeModel('gemini-2.5-flash')
         
         # ✅ 여기에 추가 (model 선언 다음 줄)
@@ -525,7 +525,7 @@ def generate_comprehensive_analysis(df, risk_info):
 간결하고 실용적으로 작성해주세요.
 """
       
-    try:
+try:
         model = genai.GenerativeModel('gemini-2.5-flash')
         
         # ✅ 여기에 추가
@@ -635,7 +635,7 @@ def generate_indicator_analysis(df, indicator_name, depth="기본"):
 위 모드에 맞춰 답변하세요.
 """
     
-    try:
+try:
         model = genai.GenerativeModel('gemini-2.5-flash')
         tokens = 2048 if depth == "딥다이브" else 1024
         
@@ -700,7 +700,7 @@ def generate_chat_response(df, risk_info, user_question, history):
 """
     
    
-    try:
+ try:
         model = genai.GenerativeModel('gemini-2.5-flash')
         
         # ✅ 여기에 추가
