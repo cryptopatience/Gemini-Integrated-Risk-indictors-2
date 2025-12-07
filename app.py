@@ -430,18 +430,38 @@ FULL_ANALYSIS:
 간결하고 실용적으로 작성하세요.
 """
     
-    try:
+  try:
         model = genai.GenerativeModel('gemini-2.5-flash')
+        
+        # ✅ 여기에 추가 (model 선언 다음 줄)
+        safety_settings = [
+            {"category": "HARM_CATEGORY_HARASSMENT", "threshold": "BLOCK_NONE"},
+            {"category": "HARM_CATEGORY_HATE_SPEECH", "threshold": "BLOCK_NONE"},
+            {"category": "HARM_CATEGORY_SEXUALLY_EXPLICIT", "threshold": "BLOCK_NONE"},
+            {"category": "HARM_CATEGORY_DANGEROUS_CONTENT", "threshold": "BLOCK_NONE"},
+        ]
+        
         response = model.generate_content(
             prompt, 
             generation_config={
                 'max_output_tokens': 1024,
                 'temperature': 0.7
-            }
+            },
+            safety_settings=safety_settings  # ✅ 여기에 추가
         )
         
-        text = response.text
+        # ✅ 여기에 추가 (text = response.text 앞에)
+        if not response.candidates or not response.candidates[0].content.parts:
+            return {
+                'market_status': '⚠️ AI 응답 생성 실패',
+                'key_risks': '안전 필터에 의해 차단되었습니다.',
+                'strategy': '다시 시도하세요',
+                'full_analysis': '응답이 차단되었습니다.'
+            }
         
+        text = response.text
+
+    
         market_status = extract_section(text, "MARKET_STATUS:")
         key_risks = extract_section(text, "KEY_RISKS:")
         strategy = extract_section(text, "STRATEGY:")
@@ -504,17 +524,34 @@ def generate_comprehensive_analysis(df, risk_info):
 
 간결하고 실용적으로 작성해주세요.
 """
-    
+      
     try:
         model = genai.GenerativeModel('gemini-2.5-flash')
+        
+        # ✅ 여기에 추가
+        safety_settings = [
+            {"category": "HARM_CATEGORY_HARASSMENT", "threshold": "BLOCK_NONE"},
+            {"category": "HARM_CATEGORY_HATE_SPEECH", "threshold": "BLOCK_NONE"},
+            {"category": "HARM_CATEGORY_SEXUALLY_EXPLICIT", "threshold": "BLOCK_NONE"},
+            {"category": "HARM_CATEGORY_DANGEROUS_CONTENT", "threshold": "BLOCK_NONE"},
+        ]
+        
         response = model.generate_content(
             prompt, 
             generation_config={
                 'max_output_tokens': 2048,
                 'temperature': 0.7
-            }
+            },
+            safety_settings=safety_settings  # ✅ 여기에 추가
         )
+        
+        # ✅ 여기에 추가 (return 앞에)
+        if not response.candidates or not response.candidates[0].content.parts:
+            return "⚠️ AI 응답이 안전 필터에 의해 차단되었습니다. 다시 시도하세요."
+        
         return response.text
+
+       
     except Exception as e:
         error_msg = str(e)
         if "quota" in error_msg.lower() or "429" in error_msg:
@@ -601,14 +638,30 @@ def generate_indicator_analysis(df, indicator_name, depth="기본"):
     try:
         model = genai.GenerativeModel('gemini-2.5-flash')
         tokens = 2048 if depth == "딥다이브" else 1024
+        
+        # ✅ 여기에 추가
+        safety_settings = [
+            {"category": "HARM_CATEGORY_HARASSMENT", "threshold": "BLOCK_NONE"},
+            {"category": "HARM_CATEGORY_HATE_SPEECH", "threshold": "BLOCK_NONE"},
+            {"category": "HARM_CATEGORY_SEXUALLY_EXPLICIT", "threshold": "BLOCK_NONE"},
+            {"category": "HARM_CATEGORY_DANGEROUS_CONTENT", "threshold": "BLOCK_NONE"},
+        ]
+        
         response = model.generate_content(
             prompt, 
             generation_config={
                 'max_output_tokens': tokens,
                 'temperature': 0.7
-            }
+            },
+            safety_settings=safety_settings  # ✅ 여기에 추가
         )
+        
+        # ✅ 여기에 추가 (return 앞에)
+        if not response.candidates or not response.candidates[0].content.parts:
+            return "⚠️ AI 응답이 안전 필터에 의해 차단되었습니다. 다시 시도하세요."
+        
         return response.text
+   
     except Exception as e:
         error_msg = str(e)
         if "quota" in error_msg.lower() or "429" in error_msg:
@@ -646,16 +699,36 @@ def generate_chat_response(df, risk_info, user_question, history):
 투자 권유가 아닌 원칙 중심으로 답변하세요.
 """
     
+   
     try:
         model = genai.GenerativeModel('gemini-2.5-flash')
+        
+        # ✅ 여기에 추가
+        safety_settings = [
+            {"category": "HARM_CATEGORY_HARASSMENT", "threshold": "BLOCK_NONE"},
+            {"category": "HARM_CATEGORY_HATE_SPEECH", "threshold": "BLOCK_NONE"},
+            {"category": "HARM_CATEGORY_SEXUALLY_EXPLICIT", "threshold": "BLOCK_NONE"},
+            {"category": "HARM_CATEGORY_DANGEROUS_CONTENT", "threshold": "BLOCK_NONE"},
+        ]
+        
         response = model.generate_content(
             prompt, 
             generation_config={
                 'max_output_tokens': 1024,
                 'temperature': 0.8
-            }
+            },
+            safety_settings=safety_settings  # ✅ 여기에 추가
         )
+        
+        # ✅ 여기에 추가 (return 앞에)
+        if not response.candidates or not response.candidates[0].content.parts:
+            return "⚠️ AI 응답이 안전 필터에 의해 차단되었습니다. 질문을 다시 작성해주세요."
+        
         return response.text
+
+
+
+        
     except Exception as e:
         error_msg = str(e)
         if "quota" in error_msg.lower() or "429" in error_msg:
