@@ -474,7 +474,7 @@ try:
             'full_analysis': full_analysis or text
         }
         
-    except Exception as e:
+except Exception as e:
         error_msg = str(e)
         if "quota" in error_msg.lower() or "429" in error_msg:
             return {
@@ -552,7 +552,7 @@ try:
         return response.text
 
        
-    except Exception as e:
+except Exception as e:
         error_msg = str(e)
         if "quota" in error_msg.lower() or "429" in error_msg:
             return "⚠️ API 할당량 초과. 잠시 후 다시 시도하세요."
@@ -662,7 +662,7 @@ try:
         
         return response.text
    
-    except Exception as e:
+except Exception as e:
         error_msg = str(e)
         if "quota" in error_msg.lower() or "429" in error_msg:
             return "⚠️ API 할당량 초과. 잠시 후 다시 시도하세요."
@@ -729,7 +729,7 @@ def generate_chat_response(df, risk_info, user_question, history):
 
 
         
-    except Exception as e:
+except Exception as e:
         error_msg = str(e)
         if "quota" in error_msg.lower() or "429" in error_msg:
             return "⚠️ API 할당량 초과. 잠시 후 다시 시도하세요."
