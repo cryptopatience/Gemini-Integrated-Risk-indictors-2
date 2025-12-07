@@ -431,64 +431,70 @@ FULL_ANALYSIS:
 """
     
 try:
-        model = genai.GenerativeModel('gemini-2.5-flash')
-        
-        # ✅ 여기에 추가 (model 선언 다음 줄)
-        safety_settings = [
-            {"category": "HARM_CATEGORY_HARASSMENT", "threshold": "BLOCK_NONE"},
-            {"category": "HARM_CATEGORY_HATE_SPEECH", "threshold": "BLOCK_NONE"},
-            {"category": "HARM_CATEGORY_SEXUALLY_EXPLICIT", "threshold": "BLOCK_NONE"},
-            {"category": "HARM_CATEGORY_DANGEROUS_CONTENT", "threshold": "BLOCK_NONE"},
-        ]
-        
-        response = model.generate_content(
-            prompt, 
-            generation_config={
-                'max_output_tokens': 1024,
-                'temperature': 0.7
-            },
-            safety_settings=safety_settings  # ✅ 여기에 추가
-        )
-        
-        # ✅ 여기에 추가 (text = response.text 앞에)
-        if not response.candidates or not response.candidates[0].content.parts:
-            return {
-                'market_status': '⚠️ AI 응답 생성 실패',
-                'key_risks': '안전 필터에 의해 차단되었습니다.',
-                'strategy': '다시 시도하세요',
-                'full_analysis': '응답이 차단되었습니다.'
-            }
-        
-        text = response.text
-
+    model = genai.GenerativeModel('gemini-2.5-flash')
     
-        market_status = extract_section(text, "MARKET_STATUS:")
-        key_risks = extract_section(text, "KEY_RISKS:")
-        strategy = extract_section(text, "STRATEGY:")
-        full_analysis = extract_section(text, "FULL_ANALYSIS:")
-        
+    # ✅ 여기에 추가 (model 선언 다음 줄)
+    safety_settings = [
+        {"category": "HARM_CATEGORY_HARASSMENT", "threshold": "BLOCK_NONE"},
+        {"category": "HARM_CATEGORY_HATE_SPEECH", "threshold": "BLOCK_NONE"},
+        {"category": "HARM_CATEGORY_SEXUALLY_EXPLICIT", "threshold": "BLOCK_NONE"},
+        {"category": "HARM_CATEGORY_DANGEROUS_CONTENT", "threshold": "BLOCK_NONE"},
+    ]
+    
+    response = model.generate_content(
+        prompt, 
+        generation_config={
+            'max_output_tokens': 1024,
+            'temperature': 0.7
+        },
+        safety_settings=safety_settings  # ✅ 여기에 추가
+    )
+    
+    # ✅ 여기에 추가 (text = response.text 앞에)
+    if not response.candidates or not response.candidates[0].content.parts:
         return {
-            'market_status': market_status or "현재 시장은 복합적인 신호를 보이고 있습니다.",
-            'key_risks': key_risks or "• 리스크 분석 중...",
-            'strategy': strategy or "신중한 접근이 필요합니다.",
-            'full_analysis': full_analysis or text
-        }
-        
-except Exception as e:
-        error_msg = str(e)
-        if "quota" in error_msg.lower() or "429" in error_msg:
-            return {
-                'market_status': '⚠️ API 할당량 초과',
-                'key_risks': '잠시 후 다시 시도하세요',
-                'strategy': '10-60분 후 재시도',
-                'full_analysis': f'⚠️ Gemini API 할당량 초과: {error_msg}'
-            }
-        return {
-            'market_status': '⚠️ 오류 발생',
-            'key_risks': f'{error_msg}',
+            'market_status': '⚠️ AI 응답 생성 실패',
+            'key_risks': '안전 필터에 의해 차단되었습니다.',
             'strategy': '다시 시도하세요',
-            'full_analysis': f'⚠️ 오류: {error_msg}'
+            'full_analysis': '응답이 차단되었습니다.'
         }
+        
+    text = response.text
+
+    # 🟢 이 부분부터 최종 return까지 들여쓰기를 유지하여 try 블록 내에 위치시킵니다.
+    market_status = extract_section(text, "MARKET_STATUS:")
+    key_risks = extract_section(text, "KEY_RISKS:")
+    strategy = extract_section(text, "STRATEGY:")
+    full_analysis = extract_section(text, "FULL_ANALYSIS:")
+    
+    return {
+        'market_status': market_status or "현재 시장은 복합적인 신호를 보이고 있습니다.",
+        'key_risks': key_risks or "• 리스크 분석 중...",
+        'strategy': strategy or "신중한 접근이 필요합니다.",
+        'full_analysis': full_analysis or text
+    }
+    
+except Exception as e:
+    error_msg = str(e)
+    if "quota" in error_msg.lower() or "429" in error_msg:
+        return {
+            'market_status': '⚠️ API 할당량 초과',
+            'key_risks': '잠시 후 다시 시도하세요',
+            'strategy': '10-60분 후 재시도',
+            'full_analysis': f'⚠️ Gemini API 할당량 초과: {error_msg}'
+        }
+    return {
+        'market_status': '⚠️ 오류 발생',
+        'key_risks': f'{error_msg}',
+        'strategy': '다시 시도하세요',
+        'full_analysis': f'⚠️ 오류: {error_msg}'
+    }
+
+
+
+
+
+
 
 def generate_comprehensive_analysis(df, risk_info):
     """종합 AI 분석"""
