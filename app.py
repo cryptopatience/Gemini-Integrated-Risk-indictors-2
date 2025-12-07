@@ -431,7 +431,7 @@ FULL_ANALYSIS:
 """
     
     try:
-        model = genai.GenerativeModel('gemini-2.5-flash-002')
+        model = genai.GenerativeModel('gemini-2.5-flash')
         response = model.generate_content(
             prompt, 
             generation_config={
@@ -506,7 +506,7 @@ def generate_comprehensive_analysis(df, risk_info):
 """
     
     try:
-        model = genai.GenerativeModel('gemini-2.5-flash-002')
+        model = genai.GenerativeModel('gemini-2.5-flash')
         response = model.generate_content(
             prompt, 
             generation_config={
@@ -599,7 +599,7 @@ def generate_indicator_analysis(df, indicator_name, depth="기본"):
 """
     
     try:
-        model = genai.GenerativeModel('gemini-2.5-flash-002')
+        model = genai.GenerativeModel('gemini-2.5-flash')
         tokens = 2048 if depth == "딥다이브" else 1024
         response = model.generate_content(
             prompt, 
@@ -647,7 +647,7 @@ def generate_chat_response(df, risk_info, user_question, history):
 """
     
     try:
-        model = genai.GenerativeModel('gemini-2.5-flash-002')
+        model = genai.GenerativeModel('gemini-2.5-flash')
         response = model.generate_content(
             prompt, 
             generation_config={
