@@ -700,7 +700,7 @@ def generate_chat_response(df, risk_info, user_question, history):
 """
     
    
- try:
+try:
         model = genai.GenerativeModel('gemini-2.5-flash')
         
         # ✅ 여기에 추가
