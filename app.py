@@ -13,7 +13,7 @@ warnings.filterwarnings('ignore')
 # 페이지 설정
 # ============================================================
 st.set_page_config(
-    page_title="신용지표 연체율 대시보드(후행지표)",
+    page_title="크레딧 위험 대시보드(과거 경제반영 후행지표)",
     page_icon="📊",
     layout="wide",
     initial_sidebar_state="expanded"
