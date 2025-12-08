@@ -431,7 +431,7 @@ FULL_ANALYSIS:
 """
     
     try:
-        model = genai.GenerativeModel('gemini-2.5-flash')
+        model = genai.GenerativeModel('gemini-2.0-flash-exp')
         
         safety_settings = [
             {"category": "HARM_CATEGORY_HARASSMENT", "threshold": "BLOCK_NONE"},
@@ -524,7 +524,7 @@ def generate_comprehensive_analysis(df, risk_info):
 """
     
     try:
-        model = genai.GenerativeModel('gemini-2.5-flash')
+        model = genai.GenerativeModel('gemini-2.0-flash-exp')
         
         safety_settings = [
             {"category": "HARM_CATEGORY_HARASSMENT", "threshold": "BLOCK_NONE"},
@@ -631,7 +631,7 @@ def generate_indicator_analysis(df, indicator_name, depth="기본"):
 """
     
     try:
-        model = genai.GenerativeModel('gemini-2.5-flash')
+        model = genai.GenerativeModel('gemini-2.0-flash-exp')
         tokens = 2048 if depth == "딥다이브" else 1024
         
         safety_settings = [
@@ -693,7 +693,7 @@ def generate_chat_response(df, risk_info, user_question, history):
 """
     
     try:
-        model = genai.GenerativeModel('gemini-2.5-flash')
+        model = genai.GenerativeModel('gemini-2.0-flash-exp')
         
         safety_settings = [
             {"category": "HARM_CATEGORY_HARASSMENT", "threshold": "BLOCK_NONE"},
