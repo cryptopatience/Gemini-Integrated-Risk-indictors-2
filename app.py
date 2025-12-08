@@ -1348,7 +1348,7 @@ def main():
         
         - **FRED 공식 문서**: https://fred.stlouisfed.org/
         - **연준 통화정책**: https://www.federalreserve.gov/
-        - **수익률 곡선 역전 역사**: 과거 모든 침체 전 발생 (단, 시차 존재)
+        - **시나리오분석 및 개별해석 학습자료**: https://www.notion.so/2-vs-2c30b30d7d6880419eb6dc169cdc73fa?source=copy_link/
         """)
     
     # 데이터 다운로드
