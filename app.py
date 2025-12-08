@@ -880,6 +880,21 @@ def main():
     if st.sidebar.button("🔄 데이터 새로고침", type="primary"):
         st.cache_data.clear()
         st.rerun()
+
+     
+    # ============ 여기에 추가 ============
+    st.sidebar.markdown("---")
+    st.sidebar.markdown("### 📚 추가 학습 자료")
+    
+    st.sidebar.markdown("**🔗 공식 문서**")
+    st.sidebar.markdown("- [FRED](https://fred.stlouisfed.org/)")
+    st.sidebar.markdown("- [연준](https://www.federalreserve.gov/)")
+    
+    st.sidebar.markdown("**📊 심화 학습**")
+    st.sidebar.markdown("- [시나리오분석 및 개별해석 자료](https://www.notion.so/2-vs-2c30b30d7d6880419eb6dc169cdc73fa?source=copy_link)")
+    # ====================================
+
+
     
     # 데이터 로드
     try:
